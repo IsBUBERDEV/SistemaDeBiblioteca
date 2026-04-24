@@ -1,4 +1,5 @@
 package org.buber.modelos;
+
 import java.util.ArrayList;
 
 public class Biblioteca {
@@ -7,7 +8,7 @@ public class Biblioteca {
     private ArrayList<Autor> autores;
     private ArrayList<Prestamo> prestamos;
 
-    public Biblioteca(){
+    public Biblioteca() {
         categorias = new ArrayList<>();
         autores = new ArrayList<>();
         prestamos = new ArrayList<>();
@@ -17,36 +18,35 @@ public class Biblioteca {
         return autores;
     }
 
-    public ArrayList<Categoria> getCategoria(){
+    public ArrayList<Categoria> getCategorias() {
         return categorias;
     }
 
-    public ArrayList<Prestamo> getPrestamo(){
+    public ArrayList<Prestamo> getPrestamos() {
         return prestamos;
     }
 
     @Override
     public String toString() {
-        return "Biblioteca{" + "categorias=" + categorias + ", autores=" + autores + ", prestamos=" + prestamos + '}';
+        return "Biblioteca{" +
+                "categorias=" + categorias +
+                ", autores=" + autores +
+                ", prestamos=" + prestamos + '}';
     }
 
-    public void agregarCategoria(Categoria categoria){
+    public void agregarCategoria(Categoria categoria) {
         categorias.add(categoria);
     }
 
-    public void agregarAutor(Autor autor){
+    public void agregarAutor(Autor autor) {
         autores.add(autor);
     }
 
-    public void agregarPrestamo(Prestamo prestamo){
+    public void agregarPrestamo(Prestamo prestamo) {
         prestamos.add(prestamo);
     }
-
-    // MÉTODO CORREGIDO
     public double devolverLibro(int idPrestamo, String fechaDevolucion) {
         for (Prestamo p : prestamos) {
-
-            // ✔ corregido: p.isDevuelto()
             if (p.getId() == idPrestamo && !p.isDevuelto()) {
 
                 p.setDevuelto(true);
@@ -54,7 +54,6 @@ public class Biblioteca {
 
                 double multa = 0;
 
-                // ✔ comparación de fechas simple
                 if (fechaDevolucion.compareTo(p.getFechaLimite()) > 0) {
                     multa = 2000;
                 }
@@ -62,8 +61,7 @@ public class Biblioteca {
                 return multa;
             }
         }
-
-        return -1; // no encontrado
+        return -1;
     }
     public void verLibrosDisponibles() {
         for (Categoria c : categorias) {
@@ -73,5 +71,27 @@ public class Biblioteca {
                 }
             }
         }
+    }
+    public double calcularMultas() {
+        double total = 0;
+        for (Prestamo p : prestamos) {
+            if (p.isDevuelto() && p.getFechaDevolucion() != null) {
+                if (p.getFechaDevolucion().compareTo(p.getFechaLimite()) > 0) {
+                    total += 2000;
+                }
+            }
+        }
+        return total;
+    }
+    public int totalPrestamos() {
+        return prestamos.size();
+    }
+
+    public int totalAutores() {
+        return autores.size();
+    }
+
+    public int totalCategorias() {
+        return categorias.size();
     }
 }
