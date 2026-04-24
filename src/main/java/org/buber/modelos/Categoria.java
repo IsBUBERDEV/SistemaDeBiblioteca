@@ -16,6 +16,17 @@ public class Categoria {
         this.listaLibros.add(libro);
     }
 
+    public void mostrarLibrosDeCategoria() {
+        System.out.println("Libros en la categoría: " + this.nombre); 
+        if (listaLibros.isEmpty()) {
+            System.out.println("No hay libros registrados en esta categoría."); 
+        } else {
+            for (Libro libro : listaLibros) {
+                System.out.println("- " + libro.getTitulo()); 
+            }
+        }
+    }
+    
     public int getId() {
         return id;
     }
