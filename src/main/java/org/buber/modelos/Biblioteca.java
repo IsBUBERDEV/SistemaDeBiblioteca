@@ -8,154 +8,97 @@ public class Biblioteca {
     private ArrayList<Autor> autores;
     private ArrayList<Prestamo> prestamos;
 
-    public Biblioteca(){
+    public Biblioteca() {
         categorias = new ArrayList<>();
         autores = new ArrayList<>();
         prestamos = new ArrayList<>();
     }
 
-   
     // GETTERS
-  
-
     public ArrayList<Autor> getAutores() {
         return autores;
     }
 
-    public ArrayList<Categoria> getCategorias(){
+    public ArrayList<Categoria> getCategorias() {
         return categorias;
     }
 
-    public ArrayList<Prestamo> getPrestamos(){
+    public ArrayList<Prestamo> getPrestamos() {
         return prestamos;
     }
 
-    // TO STRING
-    
-
     @Override
     public String toString() {
-        return "Biblioteca{" + 
-                "categorias=" + categorias + 
-                ", autores=" + autores + 
+        return "Biblioteca{" +
+                "categorias=" + categorias +
+                ", autores=" + autores +
                 ", prestamos=" + prestamos + '}';
     }
 
     // AGREGAR
-    
-
-    public void agregarCategoria(Categoria categoria){
+    public void agregarCategoria(Categoria categoria) {
         categorias.add(categoria);
     }
 
-    public void agregarAutor(Autor autor){
+    public void agregarAutor(Autor autor) {
         autores.add(autor);
     }
 
-    public void agregarPrestamo(Prestamo prestamo){
+    public void agregarPrestamo(Prestamo prestamo) {
         prestamos.add(prestamo);
     }
 
     // DEVOLVER LIBRO
-   
-
-    public double devolverLibro(int idPrestamo, String fechaDevolucion){
-        for(Prestamo p : prestamos){
-
-            if(p.getId() == idPrestamo && !p.isDevuelto()){
+    public double devolverLibro(int idPrestamo, String fechaDevolucion) {
+        for (Prestamo p : prestamos) {
+            if (p.getId() == idPrestamo && !p.isDevuelto()) {
                 p.setDevuelto(true);
                 p.setFechaDevolucion(fechaDevolucion);
 
                 double multa = 0;
-
                 if (fechaDevolucion.compareTo(p.getFechaLimite()) > 0) {
                     multa = 2000;
                 }
-
                 return multa;
             }
         }
-
-        return -1;
+        return -1; // No se encontró el préstamo o ya estaba devuelto
     }
 
-   
-    // LIBROS DISPONIBLES
-    // (en realidad préstamos activos)
-  
-
-    public ArrayList<Prestamo> verDisponibles(){
+    // LIBROS DISPONIBLES (préstamos activos)
+    public ArrayList<Prestamo> verDisponibles() {
         ArrayList<Prestamo> disponibles = new ArrayList<>();
-
-        for(Prestamo p : prestamos){
-            if(!p.isDevuelto()){
+        for (Prestamo p : prestamos) {
+            if (!p.isDevuelto()) {
                 disponibles.add(p);
             }
         }
-
         return disponibles;
     }
 
-  
-    // DETALLE AUTOR
- 
-
-    public Autor buscarAutor(int id){
-        for(Autor a : autores){
-            if(a.getId() == id){
-                return a;
-            }
-        }
-        return null;
-    }
-
-    
-    // "LIBROS POR CATEGORIA"
-  
-
-    public ArrayList<Prestamo> prestamosPorCategoria(String nombreCategoria){
-        ArrayList<Prestamo> lista = new ArrayList<>();
-
-        for(Prestamo p : prestamos){
-            if(p.getCategoria().getNombre().equalsIgnoreCase(nombreCategoria)){
-                lista.add(p);
-            }
-        }
-
-        return lista;
-    }
-
-   
-    // MULTAS TOTALES
-  
-
-    public double calcularMultas(){
+    // CÁLCULO DE MULTAS
+    public double calcularMultas() {
         double total = 0;
-
-        for(Prestamo p : prestamos){
-            if(p.isDevuelto()){
-                if(p.getFechaDevolucion().compareTo(p.getFechaLimite()) > 0){
+        for (Prestamo p : prestamos) {
+            if (p.isDevuelto() && p.getFechaDevolucion() != null) {
+                if (p.getFechaDevolucion().compareTo(p.getFechaLimite()) > 0) {
                     total += 2000;
                 }
             }
         }
-
         return total;
     }
 
- 
     // ESTADISTICAS
-
-
-    public int totalPrestamos(){
+    public int totalPrestamos() {
         return prestamos.size();
     }
 
-    public int totalAutores(){
+    public int totalAutores() {
         return autores.size();
     }
 
-    public int totalCategorias(){
+    public int totalCategorias() {
         return categorias.size();
     }
 }
