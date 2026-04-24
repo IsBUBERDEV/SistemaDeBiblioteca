@@ -5,20 +5,24 @@ public class Prestamo {
     private Libro libro;
     private String usuario;
     private String fechaPrestamo;
+    private String fechaLimite;
     private String fechaDevolucion;
+    private boolean devuelto;
 
-    public Prestamo(int id, Libro libro, String usuario, String fechaPrestamo, String fechaDevolucion) {
+    public Prestamo(int id, Libro libro, String usuario, String fechaPrestamo, String fechaLimite) {
         this.id = id;
         this.libro = libro;
         this.usuario = usuario;
         this.fechaPrestamo = fechaPrestamo;
-        this.fechaDevolucion = fechaDevolucion;
+        this.fechaLimite = fechaLimite;
+        this.devuelto = false;
 
         libro.prestar(); // el libro pasa a no disponible
     }
 
     public void devolverLibro() {
         libro.devolver();
+        this.devuelto = true;
     }
 
     public int getId() {
@@ -29,24 +33,16 @@ public class Prestamo {
         return libro;
     }
 
-    public void setLibro(Libro libro) {
-        this.libro = libro;
-    }
-
     public String getUsuario() {
         return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
     }
 
     public String getFechaPrestamo() {
         return fechaPrestamo;
     }
 
-    public void setFechaPrestamo(String fechaPrestamo) {
-        this.fechaPrestamo = fechaPrestamo;
+    public String getFechaLimite() {
+        return fechaLimite;
     }
 
     public String getFechaDevolucion() {
@@ -57,6 +53,17 @@ public class Prestamo {
         this.fechaDevolucion = fechaDevolucion;
     }
 
+    public boolean isDevuelto() {
+        return devuelto;
+    }
+
+    public void setDevuelto(boolean devuelto) {
+        this.devuelto = devuelto;
+        if (devuelto) {
+            libro.devolver();
+        }
+    }
+
     @Override
     public String toString() {
         return "Prestamo{" +
@@ -64,7 +71,9 @@ public class Prestamo {
                 ", libro=" + libro +
                 ", usuario='" + usuario + '\'' +
                 ", fechaPrestamo='" + fechaPrestamo + '\'' +
+                ", fechaLimite='" + fechaLimite + '\'' +
                 ", fechaDevolucion='" + fechaDevolucion + '\'' +
+                ", devuelto=" + devuelto +
                 '}';
     }
 }

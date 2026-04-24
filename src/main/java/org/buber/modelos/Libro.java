@@ -51,6 +51,10 @@ public class Libro {
         this.disponible = disponible;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
     @Override
     public String toString() {
         return "Libro{" +
