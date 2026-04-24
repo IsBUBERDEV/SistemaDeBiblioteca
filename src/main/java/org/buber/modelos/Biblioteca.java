@@ -55,31 +55,17 @@ public class Biblioteca {
                 if (fechaDevolucion.compareTo(p.getFechaLimite()) > 0) {
                 multa = 2000; 
                 
-                return multa;
+                    return multa;
+                }
             }
-        }
             
             return -1;
-    }
-    
-    
-    public double devolverLibro(int idPrestamo, String fechaDevolucion) {
-    for (Prestamo p : prestamos) {
-        if (p.getId() == idPrestamo && !p.isDevuelto()) {
-
-            p.setDevuelto(true);
-            p.setFechaDevolucion(fechaDevolucion);
-
-            // calcular multa (ejemplo simple)
-            double multa = 0;
-
-            if (fechaDevolucion.compareTo(p.getFechaLimite()) > 0) {
-                multa = 5000; // ejemplo fijo o lo que te pidan
-            }
-
-            return multa;
         }
+    
     }
+
+    
+}
     return -1; // no encontrado
 }
   
