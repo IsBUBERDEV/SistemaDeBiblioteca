@@ -14,7 +14,6 @@ public class Biblioteca {
         prestamos = new ArrayList<>();
     }
 
-    // GETTERS
     public ArrayList<Autor> getAutores() {
         return autores;
     }
@@ -35,7 +34,6 @@ public class Biblioteca {
                 ", prestamos=" + prestamos + '}';
     }
 
-    // AGREGAR
     public void agregarCategoria(Categoria categoria) {
         categorias.add(categoria);
     }
@@ -47,36 +45,33 @@ public class Biblioteca {
     public void agregarPrestamo(Prestamo prestamo) {
         prestamos.add(prestamo);
     }
-
-    // DEVOLVER LIBRO
     public double devolverLibro(int idPrestamo, String fechaDevolucion) {
         for (Prestamo p : prestamos) {
             if (p.getId() == idPrestamo && !p.isDevuelto()) {
+
                 p.setDevuelto(true);
                 p.setFechaDevolucion(fechaDevolucion);
 
                 double multa = 0;
+
                 if (fechaDevolucion.compareTo(p.getFechaLimite()) > 0) {
                     multa = 2000;
                 }
+
                 return multa;
             }
         }
-        return -1; // No se encontró el préstamo o ya estaba devuelto
+        return -1;
     }
-
-    // LIBROS DISPONIBLES (préstamos activos)
-    public ArrayList<Prestamo> verDisponibles() {
-        ArrayList<Prestamo> disponibles = new ArrayList<>();
-        for (Prestamo p : prestamos) {
-            if (!p.isDevuelto()) {
-                disponibles.add(p);
+    public void verLibrosDisponibles() {
+        for (Categoria c : categorias) {
+            for (Libro l : c.getLibros()) {
+                if (l.isDisponible()) {
+                    System.out.println(l.getTitulo());
+                }
             }
         }
-        return disponibles;
     }
-
-    // CÁLCULO DE MULTAS
     public double calcularMultas() {
         double total = 0;
         for (Prestamo p : prestamos) {
@@ -88,8 +83,6 @@ public class Biblioteca {
         }
         return total;
     }
-
-    // ESTADISTICAS
     public int totalPrestamos() {
         return prestamos.size();
     }
